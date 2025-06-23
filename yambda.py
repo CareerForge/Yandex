@@ -41,6 +41,7 @@ def coverage_at_k(all_predicted, item_catalog, k):
     unique_recs = set(item for recs in all_predicted for item in recs[:k])
     return len(unique_recs) / len(item_catalog)
 
+## POP REC WITH LIKES ============================================================
 
 # pop-recommender using Likes
 likes = pd.DataFrame(load_dataset("yandex/yambda", data_dir="flat/50m", data_files="likes.parquet")['train'])
@@ -81,6 +82,8 @@ print(f"Popularity NDCG@10: {metrics['NDCG@K']:.4f}")
 # Popularity NDCG@10: 0.0039
 # TODO: Please let me know if this difference is because I am not using a validation set, or if I am missing something else
 
+## POP REC WITH Listen+ ============================================================
+
 # pop-recommender using Listen+
 listens = pd.DataFrame(load_dataset("yandex/yambda", data_dir="flat/50m", data_files="listens.parquet")['train'])
 listens = listens[listens['played_ratio_pct'] >= 50][['uid','item_id','timestamp']]
@@ -109,7 +112,7 @@ print(f"Popularity NDCG@10: {metrics['NDCG@K']:.4f}")
 # TODO: Please let me know if this difference is because I am not using a validation set, or if I am missing something else
 
 
-# iALS using Listen+
+## iALS WITH Listen+ ============================================================
 
 # split the data
 train_df = listens[listens['timestamp'] <= TRAIN_TIMESTAMP]
